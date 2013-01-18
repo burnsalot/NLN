@@ -23,6 +23,7 @@ public class Representative extends AAdressable implements Comparable{
 //		}
 		
 		this.embeddingLayer=embeddingLayer;		
+		this.embeddingLayer.representatives.add(this);
 //		this.verticalOutput=new Node();
 		this.horizontalOutput=new Node();
 //		this.embeddingLayer.currentlyActiveNodes.add(this.horizontalOutput);
@@ -55,23 +56,31 @@ public class Representative extends AAdressable implements Comparable{
 		adressed=true;
 	}
 
-	public boolean updateActivation(boolean parentAdressed) {
-		isActive=parentAdressed&&this.adressed;
-		
-		if (isActive) {
-			embeddingLayer.currentlyActiveNodes.add(horizontalOutput);
-			horizontalOutput.activate();
-			
-		}
-		adressed=false;		
-		
-		return isActive;
-	}
+//	public boolean updateActivation(boolean parentAdressed) {
+//		isActive=parentAdressed&&this.adressed;
+//		
+//		if (isActive) {
+//			embeddingLayer.currentlyActiveNodes.add(horizontalOutput);
+//			horizontalOutput.activate();
+////			frequency=Network.lambda*frequency+(1-Network.lambda);
+//		}
+//		
+//		
+//		adressed=false;				
+//		return isActive;
+//	}
 
 	@Override
-	public int compareTo(Object arg0) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int compareTo(Object other) {
+		Representative o=(Representative) other;
+		if (o.relativeFrequency()>this.relativeFrequency()) {
+			return -1;
+		} else if (o.relativeFrequency()<this.relativeFrequency()){
+			return 1;
+		} else {
+			return 0;
+		}
+
 	}
 	
 	
@@ -89,22 +98,22 @@ public class Representative extends AAdressable implements Comparable{
 		return represented.semanticValue();
 	}
 	
-//	public boolean updateActivation(boolean parentAdressed) {
-//		isActive=false;
-//		if (parentAdressed){
-//			if (this.adressed){
-//				isActive=true;
-//				embeddingLayer.currentlyActiveNodes.add(horizontalOutput);
-//				frequency=Network.lambda*frequency+(1-Network.lambda);
-//				horizontalOutput.activate();
-//			} else {
-//				frequency=Network.lambda*frequency;
-//			}			
-//		} else {
-//			
-//		}
-//		adressed=false;		
-//		return isActive;
-//	}
+	public boolean updateActivation(boolean parentAdressed) {
+		isActive=false;
+		if (parentAdressed){
+			if (this.adressed){
+				isActive=true;
+				embeddingLayer.currentlyActiveNodes.add(horizontalOutput);
+				frequency=Network.lambda*frequency+(1-Network.lambda);
+				horizontalOutput.activate();
+			} else {
+				frequency=Network.lambda*frequency;
+			}			
+		} else {
+			
+		}
+		adressed=false;		
+		return isActive;
+	}
 	
 }

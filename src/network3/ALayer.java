@@ -15,6 +15,7 @@ public abstract class ALayer {
 	protected ArrayList<Node> previouslyActiveNodes;
 	protected ArrayList<Node> currentlyActiveNodes;
 	protected ArrayList<Node> outputNodes;
+	protected ArrayList<Representative> representatives;
 	
 	public void resetStates(){
 		this.previouslyActiveNodes=new ArrayList<Node>();

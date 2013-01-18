@@ -1,6 +1,7 @@
 package network3;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class InputLayer extends ALayer{
 	
@@ -13,6 +14,7 @@ public class InputLayer extends ALayer{
 		this.lateralSegments=new ArrayList<Segment>();
 		this.previouslyActiveNodes=new ArrayList<Node>();
 		this.currentlyActiveNodes=new ArrayList<Node>();
+		this.representatives=new ArrayList<Representative>();
 		
 		for (int i = 0; i < features.length; i++) {
 			features[i]=new Feature(this);
@@ -74,7 +76,7 @@ public class InputLayer extends ALayer{
 //			System.err.println("OMG");
 //		}
 		
-		return "#lateral Segments: "+lateralSegments.size()+"	#active Nodes: "+getNodeIDs(currentlyActiveNodes)+"	predicting Nodes: "+numPredictive+"	#representatives: "+numRepresentatives;
+		return "#lateral Segments: "+lateralSegments.size()+"	#active Nodes: "+currentlyActiveNodes.size()+"	predicting Nodes: "+numPredictive+"	#representatives: "+numRepresentatives;
 	}
 	
 	public void setInitialState(){
@@ -97,6 +99,10 @@ public class InputLayer extends ALayer{
 			s+=node.toString()+" ";
 		}
 		return s;
+	}
+	
+	public void rankRepresentatives(){
+		Collections.sort(representatives);
 	}
 
 }
