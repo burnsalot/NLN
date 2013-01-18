@@ -84,6 +84,7 @@ public class Representative extends AAdressable implements Comparable{
 		return represented.frequency*this.frequency;
 	}
 	
+	
 	public char semanticValue(){
 		return represented.semanticValue();
 	}
