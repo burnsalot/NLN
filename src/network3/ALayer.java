@@ -13,8 +13,10 @@ public abstract class ALayer {
 	protected ArrayList<Segment> bottomUpSegments;
 	protected ArrayList<Segment> lateralSegments;
 	protected ArrayList<Node> previouslyActiveNodes;
-	protected ArrayList<Node> currentlyActiveNodes;
+	protected ArrayList<Node> currentlyActiveNodes;	
 	protected ArrayList<Node> outputNodes;
+	
+	protected ArrayList<Representative> predictedRepresentatives;
 	protected ArrayList<Representative> representatives;
 	
 	public void resetStates(){
@@ -23,7 +25,7 @@ public abstract class ALayer {
 		for (Feature feature : features) {
 			for (Representative representative : feature.representatives) {
 				representative.isActive=false;
-				representative.adressed=false;
+				representative.addressed=false;
 			}
 		}
 	}

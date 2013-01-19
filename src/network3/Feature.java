@@ -2,7 +2,7 @@ package network3;
 
 import java.util.ArrayList;
 
-public class Feature extends AAdressable{
+public class Feature extends AAddressable{
 	public double frequency;
 	private ALayer embeddingLayer;
 	public ArrayList<Representative> representatives;
@@ -20,21 +20,21 @@ public class Feature extends AAdressable{
 
 	@Override
 	// recieved bottom up signal
-	public void adress() {
+	public void address() {
 		if (Network.verbosity>1){
 			System.out.println("Feature has been detected");
 		}
-		adressed=true;
+		addressed=true;
 	}
 
 	public void update(){
 		boolean predicted=false;
 
-		if (adressed){
+		if (addressed){
 			frequency=Network.lambda*frequency+(1-Network.lambda);
 			
 			for (Representative representative : representatives) {
-				predicted|=representative.updateActivation(this.adressed);
+				predicted|=representative.updateActivation(this.addressed);
 			}
 
 			if (!predicted){
@@ -59,7 +59,7 @@ public class Feature extends AAdressable{
 
 
 		
-		adressed=false;
+		addressed=false;
 	}
 
 	private void addRepresentative(){

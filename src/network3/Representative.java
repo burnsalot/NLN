@@ -2,7 +2,7 @@ package network3;
 
 import java.util.ArrayList;
 
-public class Representative extends AAdressable implements Comparable{
+public class Representative extends AAddressable implements Comparable{
 	public ArrayList<Segment> segments;
 //	public Node verticalOutput; //points to higher layer
 	public Node horizontalOutput; //points to same layer
@@ -54,8 +54,9 @@ public class Representative extends AAdressable implements Comparable{
 
 	@Override
 	//received lateral input
-	public void adress() {
-		adressed=true;
+	public void address() {
+		embeddingLayer.predictedRepresentatives.add(this);
+		addressed=true;
 	}
 
 //	public boolean updateActivation(boolean parentAdressed) {
@@ -125,22 +126,55 @@ public class Representative extends AAdressable implements Comparable{
 		return represented.semanticValue();
 	}
 	
-	public boolean updateActivation(boolean parentAdressed) {
+	public boolean updateActivation(boolean parentAddressed) {
 		isActive=false;
-		if (parentAdressed){
-			if (this.adressed){
+		if (this.addressed){
+			if (parentAddressed){
 				isActive=true;
 				embeddingLayer.currentlyActiveNodes.add(horizontalOutput);
 				frequency=Network.lambda*frequency+(1-Network.lambda);
 				horizontalOutput.activate();
-			} else {
+			} else {				
 				frequency=Network.lambda*frequency;
-			}			
+			}
 		} else {
-			
+//			if (parentAddressed){
+//				frequency=Network.lambda*frequency;
+//			}
 		}
-		adressed=false;		
+//		isActive=false;
+//		if (parentAddressed){
+//			if (this.addressed){
+//				isActive=true;
+//				embeddingLayer.currentlyActiveNodes.add(horizontalOutput);
+//				frequency=Network.lambda*frequency+(1-Network.lambda);
+//				horizontalOutput.activate();
+//			} else {
+//				frequency=Network.lambda*frequency;
+//			}			
+//		} else {
+//			
+//		}
+		addressed=false;		
 		return isActive;
 	}
+	
+//	public boolean updateActivation(boolean parentAdressed) {
+//		isActive=false;
+//		if (parentAdressed){
+//			if (this.adressed){
+//				isActive=true;
+//				embeddingLayer.currentlyActiveNodes.add(horizontalOutput);
+//				frequency=Network.lambda*frequency+(1-Network.lambda);
+//				horizontalOutput.activate();
+//			} else {
+//				frequency=Network.lambda*frequency;
+//			}			
+//		} else {
+//			
+//		}
+//		adressed=false;		
+//		return isActive;
+//	}
 	
 }

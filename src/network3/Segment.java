@@ -2,18 +2,18 @@ package network3;
 
 import java.util.ArrayList;
 
-public class Segment extends AAdressable{
+public class Segment extends AAddressable{
 //	private ArrayList<Node> nodes;
-	private ArrayList<IAdressable> targets;
+	private ArrayList<IAddressable> targets;
 	private int activePredecessors;
 	private int threshold;
 	
 	public Segment(int threshold){
 		this.threshold=threshold;
-		this.targets=new ArrayList<IAdressable>();
+		this.targets=new ArrayList<IAddressable>();
 	}
 	
-	public void addTarget(IAdressable target){
+	public void addTarget(IAddressable target){
 		targets.add(target);
 	}
 	
@@ -24,14 +24,14 @@ public class Segment extends AAdressable{
 		boolean state = activePredecessors>=threshold;
 		activePredecessors=0;
 		if (state){
-			for (IAdressable target : targets) {
-				target.adress();
+			for (IAddressable target : targets) {
+				target.address();
 			}
 		}
 	}
 
 	@Override
-	public void adress() {
+	public void address() {
 //		adressed=true;
 		activePredecessors++;
 	}

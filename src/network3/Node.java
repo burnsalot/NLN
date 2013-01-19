@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 public class Node {
 //	public boolean isActive;
-	public ArrayList<IAdressable> targets;
+	public ArrayList<IAddressable> targets;
 	public int id;
 	
 	public Node(){
-		this.targets=new ArrayList<IAdressable>();
+		this.targets=new ArrayList<IAddressable>();
 		this.id=Network.numNodes;
 		Network.numNodes++;
 	}
@@ -17,12 +17,12 @@ public class Node {
 //		if (Network.verbosity>2){
 //			System.out.println("Node has been activated");
 //		}
-		for (IAdressable adressable : targets) {
-			adressable.adress();
+		for (IAddressable addressable : targets) {
+			addressable.address();
 		}
 	}
 	
-	public void addTarget(IAdressable target){
+	public void addTarget(IAddressable target){
 		targets.add(target);
 	}
 	

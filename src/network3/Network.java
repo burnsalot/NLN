@@ -20,7 +20,7 @@ public class Network {
 
 	public static double lambda=0.95;
 	//	public static double theta=0.2;
-	public static int verbosity=0;
+	public static int verbosity=2;
 
 	//variables changed during runtime
 	public static int numNodes=0;
@@ -43,15 +43,14 @@ public class Network {
 	public void setInputFilePath(String path){
 		this.inputFilePath=path;
 	}
-
-	public void run(File inputFile) throws IOException{
+	public int run(File inputFile) throws IOException{
 		//		System.out.println("starting new run========================");
 		FileReader reader= new FileReader(inputFile);
 		int symbol=0;
 		resetState();
 		inputLayer.setInitialState();
 
-
+		int error=0;
 		while (symbol!=-1){
 
 			if(verbosity>1){
@@ -60,6 +59,8 @@ public class Network {
 
 			inputNodes[symbol].activate();
 			this.inputLayer.prcocess();
+			
+		
 
 			if (verbosity>1){
 
@@ -69,6 +70,40 @@ public class Network {
 			symbol=reader.read();
 		}
 		reader.close();
+		return error;
+	}
+
+	public int runWithError(File inputFile) throws IOException{
+		//		System.out.println("starting new run========================");
+		Network.verbosity=2;
+		FileReader reader= new FileReader(inputFile);
+		int symbol=0;
+		resetState();
+		inputLayer.setInitialState();
+
+		int error=0;
+		while (symbol!=-1){
+
+			if(verbosity>1){
+				System.out.println("symbol read: _"+(char)symbol+"_");
+			}
+
+			inputNodes[symbol].activate();
+			this.inputLayer.prcocess();
+
+			int currentError=inputLayer.error((char)symbol);;
+			error+=currentError;
+			System.out.println(currentError);
+
+			if (verbosity>1){
+
+				System.out.println(inputLayer.toString());
+				System.out.println("========================\n");
+			}
+			symbol=reader.read();
+		}
+		reader.close();
+		return error;
 	}
 
 
@@ -92,12 +127,9 @@ public class Network {
 				this.inputLayer.prcocess();
 
 				if (verbosity>1){
-
 					System.out.println(inputLayer.toString());
-					System.out.println("========================\n");
+										System.out.println("========================\n");
 				}
-
-
 
 				try {symbol=reader.read();
 				} catch (IOException e) {e.printStackTrace();}
@@ -116,23 +148,23 @@ public class Network {
 			layer.resetStates();
 		}
 	}
-
-	public static void runOnFolder() throws IOException{
-		System.out.println("starting...");
-		Network n= new Network(inputRange,1);
+	
+	public static Network runOnFolderE(Network n) throws IOException{
+		System.out.println("starting...E");
+//		Network n= new Network(inputRange,1);
 		//		n.setInputFilePath("testFile1");
 
 		String path="C:/Users/john/Desktop/random";
 		File folder = new File(path);
 		File[] listOfFiles = folder.listFiles();
 
-		int numRuns=2;
+		int numRuns=3;
 
 		for (int i = 0; i < numRuns; i++) {
 			for (File file : listOfFiles) {
 				if (!file.isDirectory()){
 					System.out.println("Run #"+i+", file: "+file.getName());
-					n.run(file);
+					n.runWithError(file);
 					System.out.println(n.inputLayer.toString());
 				}
 				
@@ -142,14 +174,42 @@ public class Network {
 
 		//		n.displayFeatureObjectData();
 		n.displayRepresentativeRanking();
-		
+		return n;
+	}
+
+	public static Network runOnFolder() throws IOException{
+		System.out.println("starting...");
+		Network n= new Network(inputRange,1);
+		//		n.setInputFilePath("testFile1");
+
+		String path="C:/Users/john/Desktop/random";
+		File folder = new File(path);
+		File[] listOfFiles = folder.listFiles();
+
+		int numRuns=3;
+
+		for (int i = 0; i < numRuns; i++) {
+			for (File file : listOfFiles) {
+				if (!file.isDirectory()){
+					System.out.println("Run #"+i+", file: "+file.getName());
+					System.out.println("error: "+n.run(file));
+					System.out.println(n.inputLayer.toString());
+				}
+				
+			}
+
+		}
+
+		//		n.displayFeatureObjectData();
+		n.displayRepresentativeRanking();
+		return n;
 	}
 
 	public static void runOnFile(){
 		System.out.println("starting...");
 		Network n= new Network(inputRange,1);
 		n.setInputFilePath("testFile1");
-		int numRuns=100;
+		int numRuns=2;
 
 		for (int i = 0; i < numRuns; i++) {
 			n.run();
@@ -165,7 +225,8 @@ public class Network {
 
 	public static void main(String[] args) throws IOException {
 		runOnFile();
-//		runOnFolder();
+//		Network n=runOnFolder();
+//		n=runOnFolderE(n);
 
 	}
 

@@ -15,6 +15,7 @@ public class InputLayer extends ALayer{
 		this.previouslyActiveNodes=new ArrayList<Node>();
 		this.currentlyActiveNodes=new ArrayList<Node>();
 		this.representatives=new ArrayList<Representative>();
+		this.predictedRepresentatives=new ArrayList<Representative>();
 		
 		for (int i = 0; i < features.length; i++) {
 			features[i]=new Feature(this);
@@ -63,12 +64,12 @@ public class InputLayer extends ALayer{
 	
 	public String toString(){
 		int numRepresentatives=0;
-		int numPredictive=0;
+		ArrayList<Node> predictive=new ArrayList<Node>();
 		for (Feature feature : features) {
 			numRepresentatives+=feature.representatives.size();
 			for (Representative representative : feature.representatives) {
-				if(representative.adressed){
-					numPredictive++;
+				if(representative.addressed){
+					predictive.add(representative.horizontalOutput);
 				}
 			}
 		}
@@ -76,12 +77,12 @@ public class InputLayer extends ALayer{
 //			System.err.println("OMG");
 //		}
 		
-		return "#lateral Segments: "+lateralSegments.size()+"	#active Nodes: "+getNodeIDs(currentlyActiveNodes)+"	predicting Nodes: "+numPredictive+"	#representatives: "+numRepresentatives;
+		return "#lateral Segments: "+lateralSegments.size()+"	#active Nodes: "+getNodeIDs(currentlyActiveNodes)+"	predicting Nodes: "+getNodeIDs(predictive)+"	#representatives: "+numRepresentatives;
 //		return "#lateral Segments: "+lateralSegments.size()+"	#active Nodes: "+currentlyActiveNodes.size()+"	predicting Nodes: "+numPredictive+"	#representatives: "+numRepresentatives;
 	}
 	
 	public void setInitialState(){
-		features[0].representatives.get(0).adress();
+		features[0].representatives.get(0).address();
 	}
 	
 	public ArrayList<Double[]> featureObjectData(){
@@ -106,5 +107,40 @@ public class InputLayer extends ALayer{
 	public void rankRepresentatives(){
 		Collections.sort(representatives);
 	}
+	
+	//returns list of pairs, estimated char+probability
+	public ArrayList<Estimate> estimates(){
+		ArrayList<Estimate>  estimates=new ArrayList<Estimate>();
+		for (Representative predicted : predictedRepresentatives) {
+			estimates.add(new Estimate(predicted.semanticValue(), predicted.frequency));
+		}
+		return estimates;
+	}
+	
+	public int error(char realValue){
+		ArrayList<Estimate> estimates=estimates();
+		System.out.println("number of estimates: "+estimates.size());
+		Collections.sort(estimates);
+		Collections.reverse(estimates);
+		
+		double predecessorProbability=1;
+		boolean success=false;
+		int error=0;
+		for (Estimate estimate : estimates) {
+			if(estimate.value==realValue){
+				success=true;
+				break;
+			} else if (estimate.probability!=predecessorProbability){
+				error++;
+				//avoid counting errors for estimates of same probability
+				predecessorProbability=estimate.probability;
+			}
+		}
+		if (!success){
+			error=Integer.MAX_VALUE;
+		}
+		return error;
+	}
 
+	
 }
