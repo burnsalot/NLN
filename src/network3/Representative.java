@@ -9,7 +9,7 @@ public class Representative extends AAdressable implements Comparable{
 	
 	public boolean isActive;
 	private ALayer embeddingLayer;
-	private Feature represented;
+	public Feature represented;
 	public double frequency;
 	
 	public Representative(ALayer embeddingLayer, Feature represented){
@@ -48,6 +48,8 @@ public class Representative extends AAdressable implements Comparable{
 	
 	public void force(){
 		this.embeddingLayer.currentlyActiveNodes.add(this.horizontalOutput);
+		reinforce();
+		horizontalOutput.activate();
 	}
 
 	@Override
@@ -71,16 +73,36 @@ public class Representative extends AAdressable implements Comparable{
 //	}
 
 	@Override
+//	public int compareTo(Object other) {
+//		Representative o=(Representative) other;
+//		if (o.frequency>this.frequency) {
+//			return -1;
+//		} else if (o.frequency<this.frequency){
+//			return 1;
+//		} else {
+//			return 0;
+//		}
+//	}
+	
+//	public int compareTo(Object other) {
+//		Representative o=(Representative) other;
+//		if (o.relativeFrequency()>this.relativeFrequency()) {
+//			return -1;
+//		} else if (o.relativeFrequency()<this.relativeFrequency()){
+//			return 1;
+//		} else {
+//			return 0;
+//		}
+//	}
 	public int compareTo(Object other) {
 		Representative o=(Representative) other;
-		if (o.relativeFrequency()>this.relativeFrequency()) {
+		if (o.score()>this.score()) {
 			return -1;
-		} else if (o.relativeFrequency()<this.relativeFrequency()){
+		} else if (o.score()<this.score()){
 			return 1;
 		} else {
 			return 0;
 		}
-
 	}
 	
 	
@@ -91,6 +113,11 @@ public class Representative extends AAdressable implements Comparable{
 	//probability of activation given parent activation
 	public double relativeFrequency(){
 		return represented.frequency*this.frequency;
+	}
+	
+	//representatives with high accuracy and high fan out might be focal points
+	public double score(){
+		return this.horizontalOutput.targets.size()*frequency;
 	}
 	
 	

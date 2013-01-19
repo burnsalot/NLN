@@ -76,7 +76,8 @@ public class InputLayer extends ALayer{
 //			System.err.println("OMG");
 //		}
 		
-		return "#lateral Segments: "+lateralSegments.size()+"	#active Nodes: "+currentlyActiveNodes.size()+"	predicting Nodes: "+numPredictive+"	#representatives: "+numRepresentatives;
+		return "#lateral Segments: "+lateralSegments.size()+"	#active Nodes: "+getNodeIDs(currentlyActiveNodes)+"	predicting Nodes: "+numPredictive+"	#representatives: "+numRepresentatives;
+//		return "#lateral Segments: "+lateralSegments.size()+"	#active Nodes: "+currentlyActiveNodes.size()+"	predicting Nodes: "+numPredictive+"	#representatives: "+numRepresentatives;
 	}
 	
 	public void setInitialState(){
@@ -101,6 +102,7 @@ public class InputLayer extends ALayer{
 		return s;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void rankRepresentatives(){
 		Collections.sort(representatives);
 	}
