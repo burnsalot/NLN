@@ -24,18 +24,22 @@ public class Feature extends AAddressable{
 		if (Network.verbosity>1){
 			System.out.println("Feature has been detected");
 		}
-		addressed=true;
+		this.addressed=true;
 	}
 
 	public void update(){
 		boolean predicted=false;
-
-		if (addressed){
+		
+		for (Representative representative : representatives) {
+			predicted|=representative.updateActivation();
+		}
+		if (this.addressed){
+//			if(id==100){
+//				System.out.println("prc");
+//			}
 			frequency=Network.lambda*frequency+(1-Network.lambda);
 			
-			for (Representative representative : representatives) {
-				predicted|=representative.updateActivation(this.addressed);
-			}
+			
 
 			if (!predicted){
 				if (Network.verbosity>1){
@@ -57,13 +61,13 @@ public class Feature extends AAddressable{
 			frequency=Network.lambda*frequency;
 		} 
 
-
+		this.addressed=false;
 		
-		addressed=false;
+		
 	}
 
 	private void addRepresentative(){
-		representatives.add(new Representative(embeddingLayer, this).reinforce());
+		representatives.add(new Representative(embeddingLayer, this));
 	}
 	
 	

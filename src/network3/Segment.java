@@ -5,10 +5,12 @@ import java.util.ArrayList;
 public class Segment extends AAddressable{
 //	private ArrayList<Node> nodes;
 	private ArrayList<IAddressable> targets;
+	private ArrayList<Node> predecessing;
 	private int activePredecessors;
 	private int threshold;
 	
 	public Segment(int threshold){
+		this.predecessing=new ArrayList<Node>();
 		this.threshold=threshold;
 		this.targets=new ArrayList<IAddressable>();
 	}
@@ -17,6 +19,9 @@ public class Segment extends AAddressable{
 		targets.add(target);
 	}
 	
+	public void connect(Node n){
+		predecessing.add(n);
+	}
 	
 	
 	
@@ -28,6 +33,7 @@ public class Segment extends AAddressable{
 				target.address();
 			}
 		}
+//		state=false;
 	}
 
 	@Override

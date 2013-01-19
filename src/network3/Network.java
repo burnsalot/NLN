@@ -20,7 +20,7 @@ public class Network {
 
 	public static double lambda=0.95;
 	//	public static double theta=0.2;
-	public static int verbosity=2;
+	public static int verbosity=0;
 
 	//variables changed during runtime
 	public static int numNodes=0;
@@ -209,7 +209,7 @@ public class Network {
 		System.out.println("starting...");
 		Network n= new Network(inputRange,1);
 		n.setInputFilePath("testFile1");
-		int numRuns=2;
+		int numRuns=100;
 
 		for (int i = 0; i < numRuns; i++) {
 			n.run();
@@ -224,8 +224,8 @@ public class Network {
 
 
 	public static void main(String[] args) throws IOException {
-		runOnFile();
-//		Network n=runOnFolder();
+//		runOnFile();
+		Network n=runOnFolder();
 //		n=runOnFolderE(n);
 
 	}
@@ -243,13 +243,13 @@ public class Network {
 		Collections.reverse(representatives);
 
 
-//		Representative representative;
-		//		for (int i = 0; i < 100; i++) {
-		//			representative=representatives.get(i);
-		//			System.out.println("ID: "+representative.horizontalOutput.id+"	semantic value: "+representative.represented.id+"	relative: "+representative.relativeFrequency()+" lokal: "+representative.frequency);
-		//		}
-		for (Representative representative : representatives) {
-			System.out.println("ID: "+representative.horizontalOutput.id+"	semantic value: "+representative.semanticValue()+"	relative: "+representative.relativeFrequency()+" lokal: "+representative.frequency);
-		}	
+		Representative representative;
+				for (int i = 0; i < 100; i++) {
+					representative=representatives.get(i);
+					System.out.println("ID: "+representative.horizontalOutput.id+"	semantic value: "+(char)representative.represented.id+"	relative: "+representative.relativeFrequency()+" lokal: "+representative.frequency);
+				}
+//		for (Representative representative : representatives) {
+//			System.out.println("ID: "+representative.horizontalOutput.id+"	semantic value: "+representative.semanticValue()+"	relative: "+representative.relativeFrequency()+" lokal: "+representative.frequency);
+//		}	
 	}
 }

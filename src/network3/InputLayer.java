@@ -65,6 +65,7 @@ public class InputLayer extends ALayer{
 	public String toString(){
 		int numRepresentatives=0;
 		ArrayList<Node> predictive=new ArrayList<Node>();
+		ArrayList<Feature> adressed=new ArrayList<Feature>();
 		for (Feature feature : features) {
 			numRepresentatives+=feature.representatives.size();
 			for (Representative representative : feature.representatives) {
@@ -77,8 +78,8 @@ public class InputLayer extends ALayer{
 //			System.err.println("OMG");
 //		}
 		
-		return "#lateral Segments: "+lateralSegments.size()+"	#active Nodes: "+getNodeIDs(currentlyActiveNodes)+"	predicting Nodes: "+getNodeIDs(predictive)+"	#representatives: "+numRepresentatives;
-//		return "#lateral Segments: "+lateralSegments.size()+"	#active Nodes: "+currentlyActiveNodes.size()+"	predicting Nodes: "+numPredictive+"	#representatives: "+numRepresentatives;
+//		return "#lateral Segments: "+lateralSegments.size()+"	#active Nodes: "+getNodeIDs(currentlyActiveNodes)+"	predicting Nodes: "+getNodeIDs(predictive)+"	#representatives: "+numRepresentatives;
+		return "#lateral Segments: "+lateralSegments.size()+"	#active Nodes: "+currentlyActiveNodes.size()+"	predicting Nodes: "+predictive.size()+"	#representatives: "+numRepresentatives;
 	}
 	
 	public void setInitialState(){

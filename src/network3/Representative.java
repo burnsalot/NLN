@@ -29,7 +29,7 @@ public class Representative extends AAddressable implements Comparable{
 //		this.embeddingLayer.currentlyActiveNodes.add(this.horizontalOutput);
 	}
 	
-	public Representative reinforce(){
+	public void reinforce(){
 		if (embeddingLayer.previouslyActiveNodes.size()>0){
 			Segment segment=new Segment(1);
 			segment.addTarget(this);
@@ -43,7 +43,7 @@ public class Representative extends AAddressable implements Comparable{
 			this.embeddingLayer.lateralSegments.add(segment);
 		}
 //		this.embeddingLayer.currentlyActiveNodes.add(this.horizontalOutput);
-		return this;
+//		return this;
 	}
 	
 	public void force(){
@@ -126,10 +126,10 @@ public class Representative extends AAddressable implements Comparable{
 		return represented.semanticValue();
 	}
 	
-	public boolean updateActivation(boolean parentAddressed) {
+	public boolean updateActivation() {
 		isActive=false;
 		if (this.addressed){
-			if (parentAddressed){
+			if (represented.addressed){
 				isActive=true;
 				embeddingLayer.currentlyActiveNodes.add(horizontalOutput);
 				frequency=Network.lambda*frequency+(1-Network.lambda);
@@ -138,12 +138,10 @@ public class Representative extends AAddressable implements Comparable{
 				frequency=Network.lambda*frequency;
 			}
 		} else {
-//			if (parentAddressed){
-//				frequency=Network.lambda*frequency;
-//			}
+
 		}
 //		isActive=false;
-//		if (parentAddressed){
+//		if (represented.addressed){
 //			if (this.addressed){
 //				isActive=true;
 //				embeddingLayer.currentlyActiveNodes.add(horizontalOutput);
@@ -153,7 +151,7 @@ public class Representative extends AAddressable implements Comparable{
 //				frequency=Network.lambda*frequency;
 //			}			
 //		} else {
-//			
+//			System.out.println("parent not addressed");
 //		}
 		addressed=false;		
 		return isActive;

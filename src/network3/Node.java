@@ -24,6 +24,9 @@ public class Node {
 	
 	public void addTarget(IAddressable target){
 		targets.add(target);
+		if (target instanceof Segment){
+			((Segment)target).connect(this);
+		}
 	}
 	
 	public String toString(){
